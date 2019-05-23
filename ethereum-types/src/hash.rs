@@ -19,13 +19,8 @@ construct_fixed_hash!{ pub struct H128(16); }
 impl_fixed_hash_rlp!(H128, 16);
 #[cfg(feature = "serialize")] impl_fixed_hash_serde!(H128, 16);
 
-construct_fixed_hash!{ pub struct H160(20); }
-impl_fixed_hash_rlp!(H160, 20);
-#[cfg(feature = "serialize")] impl_fixed_hash_serde!(H160, 20);
-
-construct_fixed_hash!{ pub struct H256(32); }
-impl_fixed_hash_rlp!(H256, 32);
-#[cfg(feature = "serialize")] impl_fixed_hash_serde!(H256, 32);
+pub use primitive_types::H160;
+pub use primitive_types::H256;
 
 construct_fixed_hash!{ pub struct H264(33); }
 impl_fixed_hash_rlp!(H264, 33);
@@ -59,42 +54,6 @@ impl_uint_conversions!(H64, U64);
 impl_uint_conversions!(H128, U128);
 impl_uint_conversions!(H256, U256);
 impl_uint_conversions!(H512, U512);
-
-impl From<H160> for H256 {
-	fn from(value: H160) -> H256 {
-		let mut ret = H256::zero();
-		ret.0[12..32].copy_from_slice(value.as_bytes());
-		ret
-	}
-}
-
-impl<'a> From<&'a H160> for H256 {
-	fn from(value: &'a H160) -> H256 {
-		let mut ret = H256::zero();
-		ret.0[12..32].copy_from_slice(value.as_bytes());
-		ret
-	}
-}
-
-impl From<u64> for H160 {
-	fn from(val: u64) -> Self {
-		H160::from_low_u64_be(val)
-	}
-}
-
-impl From<u64> for H256 {
-	fn from(val: u64) -> Self {
-		H256::from_low_u64_be(val)
-	}
-}
-
-impl From<H256> for H160 {
-	fn from(value: H256) -> H160 {
-		let mut ret = H160::zero();
-		ret.0.copy_from_slice(&value[12..32]);
-		ret
-	}
-}
 
 #[cfg(test)]
 mod tests {
