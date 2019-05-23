@@ -111,20 +111,6 @@ mod rlp {
 
 impl_fixed_hash_conversions!(H256, H160);
 
-macro_rules! impl_from_u64_for_fixed_hash {
-	($name:ident) => {
-		impl From<u64> for $name {
-			fn from(value: u64) -> Self {
-				$name::from_low_u64_be(value)
-			}
-		}
-	};
-}
-
-impl_from_u64_for_fixed_hash!(H160);
-impl_from_u64_for_fixed_hash!(H256);
-impl_from_u64_for_fixed_hash!(H512);
-
 impl U256 {
 	/// Multiplies two 256-bit integers to produce full 512-bit integer
 	/// No overflow possible
